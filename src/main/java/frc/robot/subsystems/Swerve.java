@@ -17,6 +17,10 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+
 
 public class Swerve extends SubsystemBase {
     public SwerveDriveOdometry swerveOdometry;
@@ -111,6 +115,37 @@ public class Swerve extends SubsystemBase {
             mod.resetToAbsolute();
         }
     }
+    
+
+
+    public void bruh()
+    {
+        NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+        NetworkTableEntry tx = table.getEntry("tx");
+
+        //read values periodically
+        double x = tx.getDouble(0.0);
+
+        double Kp = -0.1f;
+        double min_command = 0.05f;
+        double heading_error = -x;
+        double steering_adjust = 0.0f;
+        if (x > 1.0)
+        {
+                steering_adjust = Kp*heading_error - min_command;
+        }
+        else if (x < 1.0)
+        {
+                steering_adjust = Kp*heading_error + min_command;
+        }
+        ChassisSpeeds speeds = new ChassisSpeeds(0, 0, Math.toRadians(steering_adjust));
+
+        // Convert to module states
+        SwerveModuleState[] moduleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(speeds);
+
+        setModuleStates(moduleStates);
+    }
+
 
     @Override
     public void periodic(){

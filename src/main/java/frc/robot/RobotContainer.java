@@ -60,7 +60,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        aim.onTrue(new InstantCommand(() -> s_Swerve.bruh()));
+        aim.whileTrue(new InstantCommand(() -> s_Swerve.bruh()));
     }
 
     /**

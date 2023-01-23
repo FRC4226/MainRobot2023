@@ -19,11 +19,11 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Controllers */
-    private final Joystick driver = new Joystick(0);
+    private final Joystick driver = new Joystick(2);
 
     /* Drive Controls */
-    private final int translationAxis = 0;
-    private final int strafeAxis = 1;
+    private final int translationAxis = 1;
+    private final int strafeAxis = 0;
     private final int rotationAxis = 2;
 
     /* Driver Buttons */

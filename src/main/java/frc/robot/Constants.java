@@ -25,8 +25,8 @@ public final class Constants {
     public static final double openLoopRamp = 0.25;
     public static final double closedLoopRamp = 0.0;
 
-    public static final double driveGearRatio = (8.14 / 1.0); // 6.75:1
-    public static final double angleGearRatio = (((double)150/7) / 1.0); // 12.8:1
+    public static final double driveGearRatio = (8.14 / 1.0); // Default Angle Ratio
+    public static final double angleGearRatio = (((double)150/7) / 1.0); // L2 SDS MK4i Module
 
     public static final SwerveDriveKinematics swerveKinematics =
         new SwerveDriveKinematics(
@@ -113,8 +113,8 @@ public final class Constants {
 
     /* Back Right Module - Module 3 */
     public static final class Mod3 {
-      public static final int driveMotorID = 9;
-      public static final int angleMotorID = 12;
+      public static final int driveMotorID = 12;
+      public static final int angleMotorID = 9;
       public static final int canCoderID = 1;
       public static final Rotation2d angleOffset = Rotation2d.fromDegrees(21.094);
       public static final SwerveModuleConstants constants =

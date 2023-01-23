@@ -40,13 +40,13 @@ public class TeleopSwerve extends CommandBase {
     /* Get Values, Deadband*/
     double translationVal =
         translationLimiter.calculate(
-            MathUtil.applyDeadband(translationSup.getAsDouble(), Constants.Swerve.stickDeadband));
+            MathUtil.applyDeadband(translationSup.getAsDouble(), 0));
     double strafeVal =
         strafeLimiter.calculate(
-            MathUtil.applyDeadband(strafeSup.getAsDouble(), Constants.Swerve.stickDeadband));
+            MathUtil.applyDeadband(strafeSup.getAsDouble(), 0));
     double rotationVal =
         rotationLimiter.calculate(
-            MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.Swerve.stickDeadband));
+            MathUtil.applyDeadband(rotationSup.getAsDouble(), 0.2));
 
     /* Drive */
     s_Swerve.drive(

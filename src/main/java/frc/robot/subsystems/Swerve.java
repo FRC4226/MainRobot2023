@@ -122,7 +122,12 @@ public class Swerve extends SubsystemBase {
     {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         NetworkTableEntry tx = table.getEntry("tx");
-
+        NetworkTableEntry tv = table.getEntry("tv");
+        boolean visible = tv.getBoolean(false);
+        while (visible == false){
+            ChassisSpeeds bruh = new ChassisSpeeds(0, 0, .5);
+            setModuleStates(Constants.Swerve.swerveKinematics.toSwerveModuleStates(bruh));
+        }
         //read values periodically
         double x = tx.getDouble(0.0);
 
@@ -138,7 +143,7 @@ public class Swerve extends SubsystemBase {
         {
                 steering_adjust = Kp*heading_error + min_command;
         }
-        ChassisSpeeds speeds = new ChassisSpeeds(0, 0, -Math.toRadians(steering_adjust));
+        ChassisSpeeds speeds = new ChassisSpeeds(0, 0, steering_adjust * 1000 );
 
         // Convert to module states
         SwerveModuleState[] moduleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(speeds);

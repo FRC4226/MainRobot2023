@@ -40,10 +40,10 @@ public class TeleopSwerve extends CommandBase {
     /* Get Values, Deadband*/
     double translationVal =
         translationLimiter.calculate(
-            MathUtil.applyDeadband(translationSup.getAsDouble(), 0));
+            MathUtil.applyDeadband(translationSup.getAsDouble(), 0.1));
     double strafeVal =
         strafeLimiter.calculate(
-            MathUtil.applyDeadband(strafeSup.getAsDouble(), 0));
+            MathUtil.applyDeadband(strafeSup.getAsDouble(), 0.1));
     double rotationVal =
         rotationLimiter.calculate(
             MathUtil.applyDeadband(rotationSup.getAsDouble(), 0.2));
@@ -54,5 +54,6 @@ public class TeleopSwerve extends CommandBase {
         rotationVal * Constants.Swerve.maxAngularVelocity,
         !robotCentricSup.getAsBoolean(),
         true);
+  
   }
 }

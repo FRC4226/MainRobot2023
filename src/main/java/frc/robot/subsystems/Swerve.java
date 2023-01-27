@@ -137,7 +137,7 @@ public class Swerve extends SubsystemBase {
         {
                 steering_adjust = Kp*heading_error + min_command;
         }
-        ChassisSpeeds speeds = new ChassisSpeeds(0, 0, steering_adjust * 1000 );
+        ChassisSpeeds speeds = new ChassisSpeeds(0, 0, steering_adjust * 1000);
 
         // Convert to module states
         SwerveModuleState[] moduleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(speeds);

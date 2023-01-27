@@ -122,15 +122,9 @@ public class Swerve extends SubsystemBase {
     {
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         NetworkTableEntry tx = table.getEntry("tx");
-        NetworkTableEntry tv = table.getEntry("tv");
-        boolean visible = tv.getBoolean(false);
-        while (visible == false){
-            ChassisSpeeds bruh = new ChassisSpeeds(0, 0, .5);
-            setModuleStates(Constants.Swerve.swerveKinematics.toSwerveModuleStates(bruh));
-        }
+        SmartDashboard.putNumber("x value offset: ", tx.getDouble(0));
         //read values periodically
         double x = tx.getDouble(0.0);
-
         double Kp = -0.1f;
         double min_command = 0.05f;
         double heading_error = -x;

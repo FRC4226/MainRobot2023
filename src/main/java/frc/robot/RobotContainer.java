@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.autos.*;
@@ -29,7 +30,7 @@ public class RobotContainer {
     /* Driver Buttons */
     private final JoystickButton zeroGyro = new JoystickButton(driver, 2);
     private final JoystickButton robotCentric = new JoystickButton(driver, 12);
-    private final JoystickButton aim = new JoystickButton(driver, 3);
+    private final JoystickButton aim = new JoystickButton(driver, 1);
 
     /* Subsystems */
     public final Swerve s_Swerve = new Swerve();
@@ -60,7 +61,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
-        aim.whileTrue(new InstantCommand(() -> s_Swerve.bruh()));
+        aim.whileTrue(new RunCommand(() -> s_Swerve.bruh()));
     }
 
     /**

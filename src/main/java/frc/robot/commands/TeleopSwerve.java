@@ -46,7 +46,7 @@ public class TeleopSwerve extends CommandBase {
             MathUtil.applyDeadband(strafeSup.getAsDouble(), 0.1));
     double rotationVal =
         rotationLimiter.calculate(
-            MathUtil.applyDeadband(rotationSup.getAsDouble(), 0.2));
+            MathUtil.applyDeadband(rotationSup.getAsDouble(), 0.4));
 
     /* Drive */
     s_Swerve.drive(

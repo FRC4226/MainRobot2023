@@ -4,9 +4,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import frc.robot.Constants;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.geometry.Translation2d;
+//import frc.robot.Constants;
 
 
 public class Vision extends SubsystemBase{
@@ -14,6 +13,7 @@ public class Vision extends SubsystemBase{
     double yOffset;
     boolean visible;
     double steering_adjust;
+    NetworkTable table;
     private final Swerve s_Swerve;
     public Vision(Swerve s_Swerve){
         this.s_Swerve = s_Swerve;
@@ -23,38 +23,37 @@ public class Vision extends SubsystemBase{
         NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
         xOffset = table.getEntry("tx").getDouble(0);
         yOffset = table.getEntry("ty").getDouble(0);
-        visible = table.getEntry("tv").getBoolean(false);
-
-        
-        SmartDashboard.putNumber("Limelight x-offset", xOffset);
+        SmartDashboard.putNumber("Limelight x offset", xOffset);
         SmartDashboard.putBoolean("Targets visible", visible);
-      
     }
     public void aim(){
-        double Kp = -0.1;
+        double Kp = 0.1;
         double min_command = 0.05;
         double heading_error = -xOffset;
-        while (!visible){
-            ChassisSpeeds rotate = new ChassisSpeeds(0, 0, Math.toRadians(30));
-            SwerveModuleState[] bruh =  Constants.Swerve.swerveKinematics.toSwerveModuleStates(rotate);
-            //s_Swerve.setModuleStates(bruh);
+        if (Math.abs(getX()) == 0){
+            s_Swerve.drive(new Translation2d(0, 0), 2, true, false);
         }
-        if (xOffset > 1.0)
-        {
-                steering_adjust = Kp*heading_error - min_command;
+        else{
+            if (xOffset > 1.0)
+            {
+                    steering_adjust = Kp*heading_error - min_command;
+            }
+            else if (xOffset < 1.0)
+            {
+                    steering_adjust = Kp*heading_error + min_command;
+            }
+            s_Swerve.drive(new Translation2d(0, 0), steering_adjust, true, true);
         }
-        else if (xOffset < 1.0)
-        {
-                steering_adjust = Kp*heading_error + min_command;
-        }
-        ChassisSpeeds speeds = new ChassisSpeeds(0, 0, steering_adjust);
+        
 
         // Convert to module states
-        SwerveModuleState[] moduleStates = Constants.Swerve.swerveKinematics.toSwerveModuleStates(speeds);
-        SmartDashboard.putNumber("steering adjust", steering_adjust);
-        //s_Swerve.setModuleStates(moduleStates);
+
+        
     }
-    public double getDistance(){
-        return ((Constants.Swerve.targetHeightInches - Constants.Swerve.visionHeightInches)/(Math.tan(yOffset)));
+    public double getX(){
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     }
+    //public double getDistance(){
+        //return ((Constants.Swerve.targetHeightInches - Constants.Swerve.visionHeightInches)/(Math.tan(yOffset)));
+    //}
 }

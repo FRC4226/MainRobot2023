@@ -11,12 +11,21 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.ArmStore;
+import frc.robot.commands.GripOut;
+import frc.robot.commands.HighScore;
+import frc.robot.commands.TowerStore;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Tower;
+
 import java.util.List;
 
 public class exampleAuto extends SequentialCommandGroup {
-  public exampleAuto(Swerve s_Swerve) {
+  public exampleAuto(Swerve s_Swerve, Tower m_Tower, Arm m_Arm, Gripper m_Gripper) {
     TrajectoryConfig config =
         new TrajectoryConfig(
                 Constants.AutoConstants.kMaxSpeedMetersPerSecond,
@@ -27,9 +36,11 @@ public class exampleAuto extends SequentialCommandGroup {
     Trajectory exampleTrajectory =
         TrajectoryGenerator.generateTrajectory(
             // Start at the origin facing the +X direction
+          // new HighScore(m_Tower, m_Arm),
+                
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+            List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
             // End 3 meters straight ahead of where we started, facing forward
             new Pose2d(3, 0, new Rotation2d(0)),
             config);
@@ -54,7 +65,13 @@ public class exampleAuto extends SequentialCommandGroup {
             s_Swerve);
 
     addCommands(
+       // new HighScore(m_Tower, m_Arm),
+        // new GripOut(m_Gripper).withTimeout(.5),
+        //  new WaitCommand(2));
+      new ArmStore(m_Arm).withTimeout(1),
+      new InstantCommand(() -> s_Swerve.zeroGyro()).withTimeout(1),
+
         new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-        swerveControllerCommand);
+         swerveControllerCommand);
   }
 }

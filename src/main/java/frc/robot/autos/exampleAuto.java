@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
+import frc.robot.commands.ArmScore;
 import frc.robot.commands.ArmStore;
 import frc.robot.commands.GripOut;
 import frc.robot.commands.HighScore;
+import frc.robot.commands.TowerScore;
 import frc.robot.commands.TowerStore;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Gripper;
@@ -40,9 +42,9 @@ public class exampleAuto extends SequentialCommandGroup {
                 
             new Pose2d(0, 0, new Rotation2d(0)),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(1, 0), new Translation2d(2, 0)),
+            List.of(new Translation2d(-1, 0), new Translation2d(-2, 0)),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3, 0, new Rotation2d(0)),
+            new Pose2d(-3, 0, new Rotation2d(0)),
             config);
 
     var thetaController =
@@ -65,10 +67,13 @@ public class exampleAuto extends SequentialCommandGroup {
             s_Swerve);
 
     addCommands(
-       // new HighScore(m_Tower, m_Arm),
-        // new GripOut(m_Gripper).withTimeout(.5),
-        //  new WaitCommand(2));
+       new TowerScore(m_Tower), 
+       new ArmScore(m_Arm),
+       new WaitCommand(.5),
+       new GripOut(m_Gripper).withTimeout(.5),
+      new WaitCommand(2),
       new ArmStore(m_Arm).withTimeout(1),
+      new TowerStore(m_Tower),
       new InstantCommand(() -> s_Swerve.zeroGyro()).withTimeout(1),
 
         new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),

@@ -79,7 +79,7 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        s_Swerve.setDefaultCommand(
+          s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
                 () -> -m_Controller.getRawAxis(translationAxis), 
@@ -87,7 +87,7 @@ public class RobotContainer {
                 () -> -m_Controller.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean()
             )
-        );
+        ); 
 
         // Configure the button bindings
         configureButtonBindings();
@@ -117,7 +117,8 @@ public class RobotContainer {
        // rt_xBox_Driver.whileTrue(new Grip(m_gripper));
 
         b_xBox_Driver = new JoystickButton(m_Controller, XboxController.Button.kB.value);
-        b_xBox_Driver.toggleOnTrue(new TowerScore(m_Tower));
+       // b_xBox_Driver.toggleOnTrue(new TowerScore(m_Tower));
+        b_xBox_Driver.toggleOnTrue(new TowerMidScore(m_Tower));
        // b_xBox_Driver.toggleOnTrue(new HighScore(m_Tower, m_Arm));
        y_xBox_Driver = new JoystickButton(m_Controller, XboxController.Button.kY.value);
        y_xBox_Driver.toggleOnTrue(new ArmScore(m_Arm));

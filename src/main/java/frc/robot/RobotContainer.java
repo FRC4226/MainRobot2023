@@ -25,7 +25,8 @@ import frc.robot.subsystems.*;
  */
 public class RobotContainer {
     /* Drive Buttons */
-    private JoystickButton a_xBox_Driver;
+   // Driver Buttons
+  private JoystickButton a_xBox_Driver;
   private JoystickButton b_xBox_Driver;
   private JoystickButton x_xBox_Driver;
   private JoystickButton y_xBox_Driver;
@@ -35,18 +36,17 @@ public class RobotContainer {
   private JoystickButton l_Stick_Button_xbox_Driver;
   private JoystickButton start_xBox_Driver;
   private JoystickButton reset_xBox_Driver;
-
-  private XboxControllerAxisButton rt_xBox_Driver;
-  private XboxControllerAxisButton lt_xBox_Driver;
-
-  private XboxPOVButton povNorth_xBox_Driver;
-  private XboxPOVButton povNorthEast_xBox_Driver;
-  private XboxPOVButton povNorthWest_xBox_Driver;
-  private XboxPOVButton povSouth_xBox_Driver;
-  private XboxPOVButton povSouthEast_xBox_Driver;
-  private XboxPOVButton povSouthWest_xBox_Driver;
-  private XboxPOVButton povWest_xBox_Driver;
-  private XboxPOVButton povEast_xBox_Driver;
+// Co-Pilot Sr. Homie Richard
+  private JoystickButton a_xBox_Richard;
+  private JoystickButton b_xBox_Richard;
+  private JoystickButton x_xBox_Richard;
+  private JoystickButton y_xBox_Richard;
+  private JoystickButton lb_xBox_Richard;
+  private JoystickButton rb_xBox_Richard;
+  private JoystickButton r_Stick_Button_xbox_Richard;
+  private JoystickButton l_Stick_Button_xbox_Richard;
+  private JoystickButton start_xBox_Richard;
+  private JoystickButton reset_xBox_Richard;
 
 
 
@@ -54,8 +54,9 @@ public class RobotContainer {
 
     /* Controllers */
 
-    private final XboxController m_Controller = new XboxController(0);
-    private final Joystick driver = new Joystick(1);
+    private final XboxController driverXbox = new XboxController(0);
+    private final XboxController RichardXbox = new XboxController(1);
+    private final Joystick driver = new Joystick(4);
 
     /* Drive Controls */
     private final int translationAxis = XboxController.Axis.kLeftY.value;
@@ -64,11 +65,11 @@ public class RobotContainer {
 
 
     /* Driver Buttons */
-    private final JoystickButton zeroGyro = new JoystickButton(m_Controller, XboxController.Button.kX.value);
+    private final JoystickButton zeroGyro = new JoystickButton(driverXbox, XboxController.Button.kX.value);
     private final JoystickButton robotCentric = new JoystickButton(driver, 12);
     private final JoystickButton aim = new JoystickButton(driver, 1);
-    private final JoystickButton Grip = new JoystickButton(m_Controller, XboxController.Button.kRightBumper.value);
-    private final JoystickButton OneUp = new JoystickButton(m_Controller, XboxController.Button.kY.value);
+    private final JoystickButton Grip = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
+    private final JoystickButton OneUp = new JoystickButton(driverXbox, XboxController.Button.kY.value);
 
     /* Subsystems */
     public final Swerve s_Swerve = new Swerve();
@@ -82,9 +83,9 @@ public class RobotContainer {
           s_Swerve.setDefaultCommand(
             new TeleopSwerve(
                 s_Swerve, 
-                () -> -m_Controller.getRawAxis(translationAxis), 
-                () -> -m_Controller.getRawAxis(strafeAxis), 
-                () -> -m_Controller.getRawAxis(rotationAxis), 
+                () -> -driverXbox.getRawAxis(translationAxis), 
+                () -> -driverXbox.getRawAxis(strafeAxis), 
+                () -> -driverXbox.getRawAxis(rotationAxis), 
                 () -> robotCentric.getAsBoolean()
             )
         ); 
@@ -100,29 +101,32 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        /* Driver Buttons */
-        rb_xBox_Driver = new JoystickButton(m_Controller, XboxController.Button.kRightBumper.value);
-        rb_xBox_Driver.whileTrue(new Grip( m_gripper));
-        lb_xBox_Driver = new JoystickButton(m_Controller, XboxController.Button.kLeftBumper.value);
-        lb_xBox_Driver.whileTrue(new GripOut(m_gripper));
+       //Driver Bindings
+    rb_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
+    rb_xBox_Driver.whileTrue(new Grip( m_gripper));
+    lb_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
+    lb_xBox_Driver.whileTrue(new GripOut(m_gripper));
+    a_xBox_Driver = new JoystickButton(driverXbox, XboxController.Button.kA.value);
+    a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
 
+   // lt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kLeftTrigger.value);
+   // lt_xBox_Driver.whileTrue(new GripOut(m_gripper));
 
-        a_xBox_Driver = new JoystickButton(m_Controller, XboxController.Button.kA.value);
-        a_xBox_Driver.toggleOnTrue(new ArmPickup( m_Arm));
+   // rt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kRightTrigger.value);
+   // rt_xBox_Driver.whileTrue(new Grip(m_gripper));
 
-       // lt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kLeftTrigger.value);
-       // lt_xBox_Driver.whileTrue(new GripOut(m_gripper));
-
-       // rt_xBox_Driver = new XboxControllerAxisButton(m_Controller, XboxController.Axis.kRightTrigger.value);
-       // rt_xBox_Driver.whileTrue(new Grip(m_gripper));
-
-        b_xBox_Driver = new JoystickButton(m_Controller, XboxController.Button.kB.value);
-       // b_xBox_Driver.toggleOnTrue(new TowerScore(m_Tower));
-        b_xBox_Driver.toggleOnTrue(new TowerMidScore(m_Tower));
-       // b_xBox_Driver.toggleOnTrue(new HighScore(m_Tower, m_Arm));
-       y_xBox_Driver = new JoystickButton(m_Controller, XboxController.Button.kY.value);
-       y_xBox_Driver.toggleOnTrue(new ArmScore(m_Arm));
-
+   //Richard Bindings
+    a_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kA.value);
+    a_xBox_Richard.toggleOnTrue(new TowerScore(m_Tower));
+    b_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kB.value);
+    b_xBox_Richard.toggleOnTrue(new ArmScore(m_Arm));
+    x_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kX.value);
+    x_xBox_Richard.toggleOnTrue(new TowerMidScore(m_Tower));
+    
+    //rb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
+    //rb_xBox_Richard.whileTrue(new HighScore(m_Tower, m_Arm));
+    //lb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);
+    //lb_xBox_Richard.whileTrue(new MidScore(m_Tower, m_Arm));
       
         zeroGyro.onTrue(new InstantCommand(() -> s_Swerve.zeroGyro()));
        // aim.whileTrue(new orientDrive(LimeLight));
@@ -133,9 +137,11 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-
-    public XboxController getXboxController() {
-        return m_Controller;
+    public XboxController getXboxController1() {
+      return RichardXbox;
+    }
+    public XboxController getXboxController2() {
+        return driverXbox;
       }
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous

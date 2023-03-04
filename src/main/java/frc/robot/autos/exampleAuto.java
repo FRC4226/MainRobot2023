@@ -9,6 +9,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -26,7 +27,7 @@ import frc.robot.subsystems.Tower;
 
 import java.util.List;
 
-public class exampleAuto extends SequentialCommandGroup {
+public class exampleAuto extends ParallelCommandGroup {
   public exampleAuto(Swerve s_Swerve, Tower m_Tower, Arm m_Arm, Gripper m_Gripper) {
     TrajectoryConfig config =
         new TrajectoryConfig(
@@ -40,11 +41,11 @@ public class exampleAuto extends SequentialCommandGroup {
             // Start at the origin facing the +X direction
           // new HighScore(m_Tower, m_Arm),
                 
-            new Pose2d(0, 0, new Rotation2d(0)),
+            new Pose2d(0, 0, s_Swerve.getPose().getRotation()),
             // Pass through these two interior waypoints, making an 's' curve path
-            List.of(new Translation2d(-1, 0), new Translation2d(-2, 0)),
+            List.of(new Translation2d(-3, 0)),
             // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(-3, 0, new Rotation2d(0)),
+            new Pose2d(-6, 0, s_Swerve.getPose().getRotation()),
             config);
 
     var thetaController =
@@ -67,16 +68,16 @@ public class exampleAuto extends SequentialCommandGroup {
             s_Swerve);
 
     addCommands(
-       new TowerScore(m_Tower), 
-       new ArmScore(m_Arm),
-       new WaitCommand(.5),
-       new GripOut(m_Gripper).withTimeout(.5),
-      new WaitCommand(2),
-      new ArmStore(m_Arm).withTimeout(1),
-      new TowerStore(m_Tower),
-      new InstantCommand(() -> s_Swerve.zeroGyro()).withTimeout(1),
+      //  new TowerScore(m_Tower), 
+      //  new ArmScore(m_Arm),
+      //  new WaitCommand(.5),
+      //  new GripOut(m_Gripper).withTimeout(.5),
+      // new WaitCommand(2),
+      // new ArmStore(m_Arm).withTimeout(1),
+      // new TowerStore(m_Tower),
+      // new InstantCommand(() -> s_Swerve.zeroGyro()).withTimeout(1),
 
-        new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose())),
-         swerveControllerCommand);
+      // new WaitCommand(1).andThen( new InstantCommand(() -> s_Swerve.resetOdometry(exampleTrajectory.getInitialPose()))),
+      new WaitCommand(2).andThen(  swerveControllerCommand));
   }
 }

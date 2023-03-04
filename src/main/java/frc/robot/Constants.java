@@ -38,8 +38,8 @@ public final class Constants {
     public static final double voltageComp = 12;
 
     /* Swerve Current Limiting */
-    public static final int angleContinuousCurrentLimit = 25;
-    public static final int driveContinuousCurrentLimit = 30;
+    public static final int angleContinuousCurrentLimit = 20;
+    public static final int driveContinuousCurrentLimit = 22;
 
     /* Angle Motor PID Values */
     public static final double angleKP = 0.0025;

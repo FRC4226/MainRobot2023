@@ -54,7 +54,7 @@ public class ArmPickup extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        m_Arm.setReference(9);//needs tuning
+        m_Arm.setReference(8.5);//needs tuning
     }
 
     // Called once the command ends or is interrupted.

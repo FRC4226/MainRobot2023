@@ -8,8 +8,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -58,7 +60,7 @@ var thetaController =
         Constants.AutoConstants.kThetaControllerConstraints);
 thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-SwerveControllerCommand swerveControllerCommand =
+SwerveControllerCommand m_swerveControllerCommand =
     new SwerveControllerCommand(
         OneConeTrajectory,
         s_Swerve::getPose,
@@ -70,9 +72,12 @@ SwerveControllerCommand swerveControllerCommand =
         s_Swerve);
 
     addCommands(
-    new ScoreAuto(s_Swerve, m_Tower, m_Arm, m_Gripper),
+    new ScoreAuto(s_Swerve, m_Tower, m_Arm, m_Gripper).withTimeout(10),
+    new PrintCommand("*********************  Score Auto Complete ********************"),
     new InstantCommand(() -> s_Swerve.resetOdometry(OneConeTrajectory.getInitialPose())),
-    swerveControllerCommand);
+    new PrintCommand("*********************  Odometry Complete ********************"),
+    m_swerveControllerCommand,
+    new PrintCommand("*********************  Swerve Complete ********************"));
     
   }
 }

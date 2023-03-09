@@ -122,7 +122,8 @@ public class RobotContainer {
     b_xBox_Richard.toggleOnTrue(new ArmScore(m_Arm));
     x_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kX.value);
     x_xBox_Richard.toggleOnTrue(new TowerMidScore(m_Tower));
-    
+    y_xBox_Richard = new JoystickButton(RichardXbox, XboxController.Button.kY.value);
+    y_xBox_Richard.toggleOnTrue(new TowerPickup(m_Tower));
     //rb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kRightBumper.value);
     //rb_xBox_Richard.whileTrue(new HighScore(m_Tower, m_Arm));
     //lb_xBox_Richard = new JoystickButton(driverXbox, XboxController.Button.kLeftBumper.value);

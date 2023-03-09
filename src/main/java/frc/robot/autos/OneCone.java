@@ -19,6 +19,7 @@ import frc.robot.commands.ArmScore;
 import frc.robot.commands.ArmStore;
 import frc.robot.commands.GripOut;
 import frc.robot.commands.HighScore;
+import frc.robot.commands.ScoreAuto;
 import frc.robot.commands.TowerScore;
 import frc.robot.commands.TowerStore;
 import frc.robot.subsystems.Arm;
@@ -27,7 +28,7 @@ import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Tower;
 import java.util.List;
 
-public class OneCone extends ParallelCommandGroup {
+public class OneCone extends SequentialCommandGroup {
   public OneCone(Swerve s_Swerve, Tower m_Tower, Arm m_Arm, Gripper m_Gripper) {
   
     TrajectoryConfig config =
@@ -69,12 +70,9 @@ SwerveControllerCommand swerveControllerCommand =
         s_Swerve);
 
     addCommands(
-      new InstantCommand(() -> s_Swerve.zeroGyro()).withTimeout(1),
-      new TowerScore(m_Tower).withTimeout(9),
-      new WaitCommand(3).andThen(new ArmScore(m_Arm)).withTimeout(7),
-      new WaitCommand(5).andThen(new GripOut(m_Gripper).withTimeout(.4)));
-    //  new InstantCommand(() -> s_Swerve.resetOdometry(OneConeTrajectory.getInitialPose())),
-    //  swerveControllerCommand);
+    new ScoreAuto(s_Swerve, m_Tower, m_Arm, m_Gripper),
+    new InstantCommand(() -> s_Swerve.resetOdometry(OneConeTrajectory.getInitialPose())),
+    swerveControllerCommand);
     
   }
 }

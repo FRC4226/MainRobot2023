@@ -146,6 +146,6 @@ public class RobotContainer {
       }
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new OneCone(s_Swerve, m_Tower, m_Arm, m_gripper);
+        return new OneBox(s_Swerve, m_Tower, m_Arm, m_gripper);
     }
 }

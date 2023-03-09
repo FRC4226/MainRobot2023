@@ -43,13 +43,12 @@ public class OneCone extends SequentialCommandGroup {
 Trajectory OneConeTrajectory =
     TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
-      // new HighScore(m_Tower, m_Arm),
             
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(-1, 0), new Translation2d(-4, 0)),
+        List.of(new Translation2d(-1, 0.01), new Translation2d(-4, -0.01)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(-6, 0, new Rotation2d(0)),
+        new Pose2d(-8, 0, new Rotation2d(0)),
         config);
 
 var thetaController =
@@ -72,12 +71,12 @@ SwerveControllerCommand m_swerveControllerCommand =
         s_Swerve);
 
     addCommands(
-    new ScoreAuto(s_Swerve, m_Tower, m_Arm, m_Gripper).withTimeout(10),
-    new PrintCommand("*********************  Score Auto Complete ********************"),
+   // new ScoreAuto(s_Swerve, m_Tower, m_Arm, m_Gripper).withTimeout(10),
+   // new PrintCommand("*********************  Score Auto Complete ********************"),
     new InstantCommand(() -> s_Swerve.resetOdometry(OneConeTrajectory.getInitialPose())),
-    new PrintCommand("*********************  Odometry Complete ********************"),
-    m_swerveControllerCommand,
-    new PrintCommand("*********************  Swerve Complete ********************"));
+   // new PrintCommand("*********************  Odometry Complete ********************"),
+    m_swerveControllerCommand);
+   // new PrintCommand("*********************  Swerve Complete ********************"));
     
   }
 }

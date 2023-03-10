@@ -5,7 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Gripper;
 import frc.robot.subsystems.Swerve;
@@ -28,8 +28,9 @@ public class OneBox extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ScoreAuto(s_Swerve, m_Tower, m_Arm, m_Gripper).withTimeout(11),
-      new OneCone(s_Swerve, m_Tower, m_Arm, m_Gripper)
+      new ScoreAuto(s_Swerve, m_Tower, m_Arm, m_Gripper),
+      //.withTimeout(11),
+      new WaitCommand(1.5).andThen((new OneCone(s_Swerve, m_Tower, m_Arm, m_Gripper)))
 
     
     );

@@ -46,9 +46,9 @@ Trajectory OneConeTrajectory =
             
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(-1, 0.01), new Translation2d(-4, -0.01)),
+        List.of(new Translation2d(-4, 0.01), new Translation2d(-11, -0.01)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(-8, 0, new Rotation2d(0)),
+        new Pose2d(-20, 0, new Rotation2d(0)),
         config);
 
 var thetaController =
